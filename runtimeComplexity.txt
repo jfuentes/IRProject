@@ -1,0 +1,58 @@
+Assigment 1 Part D
+CS221 Information Retrieval, Winter 2015
+Student: Joel Fuentes
+
+The lineal method implemented to detect palindromes is based on the following approach:
+
+- Find longest palindromes by using two indices left-right as a center of potential palindromes. On each verification
+of a word there exist two types of searching: even string or odd string. At the same time, an additional array
+structure is used to keep track of the palindromes that were found. To built the pairs of palindromes with their 
+frequencies, a hash map was used with constant access.
+
+For example:
+
+Original String: sapas ono
+String constructed: sapasono
+
+First iteration (odd string)
+	   center
+	   |
+ left_ | _right 
+	  |||
+	sapasono
+	
+	
+Second iteration (even string)
+	  center
+	  |
+left_ |  _right 
+	 || |
+	sapasono
+	
+Third iteration (odd string) palindrome found!
+	   center
+	   |
+left_  |  _right 
+     | | |
+	 sapasono
+
+etc..
+
+The method ends up and the array with the tracked palindromes looks like:
+
+array |1|0|0|0|2|0|1|2|
+
+where 1 means the start index of a palindrome and 2 the end.
+
+Obs: If there exist palindromes shorter or subset than others, these are ignored in this array.
+
+ 
+In short, the method can be summarized in the following steps with their runtime complexities:
+
+1.- Construct a whole string with the list of tokens: O(n)
+2.- Method to find palindromes: O(n)
+3.- Reconstruct the list of palindromes from the tracking array and keep frequencies: O(2n)
+
+
+References: 
+1.- http://stackoverflow.com/questions/3647453/counting-palindromic-substrings-in-on

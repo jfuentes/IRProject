@@ -14,7 +14,7 @@ public class TestAssigment {
 	public static void main(String[] args){
 		//test part A
 		System.out.println("Part A");
-		File file= new File("file2.txt");
+		File file= new File("file.txt");
 		List<String> list =Utilities.tokenizeFile(file);
 		Utilities.print(list);
 		

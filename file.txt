@@ -4,7 +4,7 @@ I found the text "@" starting at index 0 and ending at index 1.
 
 Enter your regex: . 
 Enter input string to search: 1
-I found the text "1" starting at index 0 and ending at index 1.
+I found the text "1" starting at index 0 and ending ata index 1.
 
 Enter your regex: .
 Enter input string to search: a
