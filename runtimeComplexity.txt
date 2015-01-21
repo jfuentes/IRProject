@@ -15,26 +15,27 @@ Original String: sapas ono
 String constructed: sapasono
 
 First iteration (odd string)
-	   center
-	   |
+     center
+       |
  left_ | _right 
-	  |||
-	sapasono
+      |||
+    sapasono
 	
 	
 Second iteration (even string)
-	  center
-	  |
-left_ |  _right 
-	 || |
-	sapasono
+     center
+       |
+left_  | _right 
+     | ||
+    sapasono
 	
+
 Third iteration (odd string) palindrome found!
-	   center
-	   |
+      center
+       |
 left_  |  _right 
      | | |
-	 sapasono
+     sapasono
 
 etc..
 
@@ -50,7 +51,7 @@ Obs: If there exist palindromes shorter or subset than others, these are ignored
 In short, the method can be summarized in the following steps with their runtime complexities:
 
 1.- Construct a whole string with the list of tokens: O(n)
-2.- Method to find palindromes: O(n)
+2.- Method to find palindromes: O(n) average case
 3.- Reconstruct the list of palindromes from the tracking array and keep frequencies: O(2n)
 
 

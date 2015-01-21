@@ -23,6 +23,7 @@ public class Palindromes {
 	int[] palMap;
 	int palCount;
 
+	String s;
 	public Palindromes() {
 		entireString = new String();
 		palCount = 1;
@@ -34,6 +35,7 @@ public class Palindromes {
 		lengthString = 0;
 		for (String s : tokens)
 			lengthString += s.length();
+		
 
 		stringMap = new int[lengthString];
 		palMap = new int[lengthString];
@@ -46,6 +48,7 @@ public class Palindromes {
 			lastLocation += s.length();
 			stringMap[lastLocation] = 2;
 		}
+		
 
 		//System.out.println(entireString);
 		//for (int i = 0; i < stringMap.length; i++)
@@ -77,8 +80,8 @@ public class Palindromes {
 				evenString = !evenString;
 			}
 
-			// System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
-			// System.out.println(s!=null && s.length()>1?s:"");
+			//System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
+			//System.out.println(s!=null && s.length()>1?s:"");
 
 		}
 
@@ -103,8 +106,8 @@ public class Palindromes {
 				evenString = !evenString;
 			}
 
-			// System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
-			// System.out.println(s!=null && s.length()>1?s:"");
+			 //System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
+			 //System.out.println(s!=null && s.length()>1?s:"");
 		}
 
 		// couting palindromes
