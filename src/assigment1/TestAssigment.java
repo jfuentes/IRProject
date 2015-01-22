@@ -12,9 +12,11 @@ import assigment1.d.Palindromes;
 public class TestAssigment {
 	
 	public static void main(String[] args){
+		long startTime = System.currentTimeMillis();
+		
 		//test part A
 		System.out.println("Part A");
-		File file= new File("big.txt");
+		File file= new File("1ststop.txt");
 		List<String> list =Utilities.tokenizeFile(file);
 		Utilities.print(list);
 		
@@ -36,14 +38,14 @@ public class TestAssigment {
 		System.out.println();
 		System.out.println("Part D");
 		
-		long startTime = System.currentTimeMillis();
+
 		
 		List<Pair<String, Integer>> listFrequenciesPalindromes=new Palindromes().computePalindromeFrequencies(list);
 		Palindromes.print(listFrequenciesPalindromes);
 		
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println(totalTime);
+		System.out.println("\nTotal time: " +totalTime+"ms");
 	}
 
 }

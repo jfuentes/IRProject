@@ -12,8 +12,8 @@ public class TwoGrams {
 		if(tokenList.size()>=2){
 			ArrayList<String> grams= new ArrayList<String>();
 			 for(int i=0; i<tokenList.size()-1; i++){
-				 grams.add(tokenList.get(i)+" "+tokenList.get(i+1));
-			 }
+				 grams.add(i, tokenList.get(i)+" "+tokenList.get(i+1));
+			}
 			 return WordFrequencies.computeWordFrequencies(grams);
 		}
 		return WordFrequencies.computeWordFrequencies(tokenList);

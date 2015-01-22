@@ -36,7 +36,6 @@ public class Palindromes {
 		for (String s : tokens)
 			lengthString += s.length();
 		
-		System.out.println("lenght ok "+lengthString);
 		stringMap = new int[lengthString];
 		palMap = new int[lengthString];
 		int lastLocation = -1;
@@ -49,7 +48,7 @@ public class Palindromes {
 			lastLocation += s.length();
 			stringMap[lastLocation] = 2;
 		}
-		System.out.println("string ok");
+
 		entireString=builder.toString();
 
 		//System.out.println(entireString);
@@ -87,7 +86,6 @@ public class Palindromes {
 
 		}
 
-		System.out.println("left side ok");
 		evenString = !evenString; // Even String?
 		rightIndex++;
 		while (rightIndex < lengthString - 1) {
@@ -112,7 +110,6 @@ public class Palindromes {
 			 //System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
 			 //System.out.println(s!=null && s.length()>1?s:"");
 		}
-		System.out.println("right side ok");
 
 		// couting palindromes
 		ArrayList<Pair<String, Integer>> arrayList = new ArrayList<Pair<String, Integer>>();
