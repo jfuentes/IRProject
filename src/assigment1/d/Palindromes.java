@@ -31,24 +31,26 @@ public class Palindromes {
 
 	public List<Pair<String, Integer>> computePalindromeFrequencies(
 			List<String> tokens) {
-
+		
 		lengthString = 0;
 		for (String s : tokens)
 			lengthString += s.length();
 		
-
+		System.out.println("lenght ok "+lengthString);
 		stringMap = new int[lengthString];
 		palMap = new int[lengthString];
 		int lastLocation = -1;
 
 		// build entire String
+		StringBuilder builder= new StringBuilder();
 		for (String s : tokens) {
-			entireString += s;
+			builder.append(s);
 			stringMap[lastLocation + 1] = 1;
 			lastLocation += s.length();
 			stringMap[lastLocation] = 2;
 		}
-		
+		System.out.println("string ok");
+		entireString=builder.toString();
 
 		//System.out.println(entireString);
 		//for (int i = 0; i < stringMap.length; i++)
@@ -85,6 +87,7 @@ public class Palindromes {
 
 		}
 
+		System.out.println("left side ok");
 		evenString = !evenString; // Even String?
 		rightIndex++;
 		while (rightIndex < lengthString - 1) {
@@ -109,6 +112,7 @@ public class Palindromes {
 			 //System.out.print("2: "+leftIndex+"-"+rightIndex+" ");
 			 //System.out.println(s!=null && s.length()>1?s:"");
 		}
+		System.out.println("right side ok");
 
 		// couting palindromes
 		ArrayList<Pair<String, Integer>> arrayList = new ArrayList<Pair<String, Integer>>();
@@ -196,8 +200,9 @@ public class Palindromes {
 				&& stringMap[center + offset + 1] == 2) {
 			if (center - offset < leftIndex)
 				leftIndex = center - offset;
-			if (center + offset > rightIndex)
+			else if (center + offset > rightIndex)
 				rightIndex = center + offset;
+			else rightIndex++;
 			for (int i = center - offset; i <= center + offset + 1; i++)
 				palMap[i] = palCount;
 			palCount++;

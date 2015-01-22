@@ -14,7 +14,7 @@ public class TestAssigment {
 	public static void main(String[] args){
 		//test part A
 		System.out.println("Part A");
-		File file= new File("file2.txt");
+		File file= new File("big.txt");
 		List<String> list =Utilities.tokenizeFile(file);
 		Utilities.print(list);
 		
@@ -27,6 +27,7 @@ public class TestAssigment {
 		//test part C
 		System.out.println();
 		System.out.println("Part C");
+		
 		List<Pair<String, Integer>> listFrequenciesGrams=TwoGrams.computeTwoGramFrequencies(list);
 		TwoGrams.print(listFrequenciesGrams);
 		
@@ -34,8 +35,15 @@ public class TestAssigment {
 		//Test part D
 		System.out.println();
 		System.out.println("Part D");
+		
+		long startTime = System.currentTimeMillis();
+		
 		List<Pair<String, Integer>> listFrequenciesPalindromes=new Palindromes().computePalindromeFrequencies(list);
 		Palindromes.print(listFrequenciesPalindromes);
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println(totalTime);
 	}
 
 }
