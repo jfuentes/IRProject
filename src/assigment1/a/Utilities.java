@@ -1,10 +1,13 @@
 package assigment1.a;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class Utilities {
 	
@@ -19,21 +22,27 @@ public class Utilities {
 		ArrayList<String> list= new ArrayList<String>();
 		
 		try {
-			Scanner scanner = new Scanner(textFile);
 			
-			while(scanner.hasNextLine()){
-				String s = scanner.nextLine();
-				for(String token :s.split("\\W+")){ // W means non-word as a delimiter
-					if(token.length()>0)
-						list.add(token.toLowerCase());
+			BufferedReader in = new BufferedReader(new FileReader(textFile));
+
+			while (in.ready()) {
+			  String line = in.readLine();
+			  for(String token :line.split("\\W+")){ // W means non-word as a delimiter
+				if(token.length()>0)
+					list.add(token.toLowerCase());
 				}
 			}
+			
+			in.close();
+						
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 		}
-		
 		
 		
 		return list;
