@@ -14,6 +14,8 @@ public class Crawler extends WebCrawler{
                 + "|png|tiff?|mid|mp2|mp3|mp4"
                 + "|wav|avi|mov|mpeg|ram|m4v|pdf" 
                 + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+	
+	private final static Pattern TRAPS = Pattern.compile("(.*calendar.*month=.*year=.*)");
 
 	/**
 	* You should implement this function to specify whether
@@ -23,7 +25,7 @@ public class Crawler extends WebCrawler{
 	@Override
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches() && href.matches("(http|https)://(.+).ics.uci.edu(.*)");
+		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("(http|https)://(.+).ics.uci.edu(.*)");
 	}
 
 	/**
