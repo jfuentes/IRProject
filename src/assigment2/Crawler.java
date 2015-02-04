@@ -1,14 +1,17 @@
 package assigment2;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
+import persistence.BerkeleyDB;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Crawler extends WebCrawler{
+	BerkeleyDB db=BerkeleyDB.getInstance();
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" 
                 + "|png|tiff?|mid|mp2|mp3|mp4"
@@ -22,7 +25,7 @@ public class Crawler extends WebCrawler{
 	* the given url should be crawled or not (based on your
 	* crawling logic).
 	*/
-	@Override
+
 	public boolean shouldVisit(WebURL url) {
 		String href = url.getURL().toLowerCase();
 		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("(http|https)://(.+).ics.uci.edu(.*)");
@@ -40,11 +43,15 @@ public class Crawler extends WebCrawler{
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
-			List<WebURL> links = htmlParseData.getOutgoingUrls();
+			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 			System.out.println("Text length: " + text.length());
 			System.out.println("Html length: " + html.length());
 			System.out.println("Number of outgoing links: " + links.size());
+			db.putWebpage(new WebURLExtension(page.getWebURL(), text));
 		}
+		
+		
+		
 	}
 	
 }

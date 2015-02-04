@@ -1,23 +1,27 @@
 package assigment2;
 
+import persistence.BerkeleyDB;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import edu.uci.ics.crawler4j.url.WebURL;
 
 public class CrawlerController {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		String crawlStorageFolder = "F:\\GitHub\\IRProject\\data";
+		String crawlStorageFolder = "data";
 		String userAgent = "UCI WebCrawler - jfuente2 95686428- hke1 62087924" ;
         int numberOfCrawlers = 7;
-
+        
+        
+        
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
         config.setUserAgentString(userAgent);
-        config.setPolitenessDelay(300);
+        config.setPolitenessDelay(500);
 
         /*
          * Instantiate the controller for this crawl.
@@ -32,15 +36,16 @@ public class CrawlerController {
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("http://www.ics.uci.edu/~welling/");
-        controller.addSeed("http://www.ics.uci.edu/~lopes/");
+        //controller.addSeed("http://www.ics.uci.edu/~welling/");
+        //controller.addSeed("http://www.ics.uci.edu/~lopes/");
         controller.addSeed("http://www.ics.uci.edu/");
 
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
          */
-        controller.start(Crawler.class, numberOfCrawlers);    
+        controller.start(Crawler.class, numberOfCrawlers);  
+        BerkeleyDB.close();
 	}
 
 }

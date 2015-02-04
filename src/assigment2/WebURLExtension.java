@@ -8,16 +8,12 @@ import com.sleepycat.persist.model.PrimaryKey;
 @Entity
 public class WebURLExtension {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	//attributes
 	
 	@PrimaryKey
 	private String url;
 	  
-	private WebURL webURL;
+	//private WebURL webURL;
 	private String textContent;
 	
 	public WebURLExtension(){
@@ -25,7 +21,8 @@ public class WebURLExtension {
 	}
 	
 	public WebURLExtension(WebURL webURL, String textContent){
-		this.webURL=webURL;
+		//this.webURL=webURL;
+		this.url=webURL.getURL();
 		this.textContent=textContent;
 	}
 	
@@ -33,8 +30,8 @@ public class WebURLExtension {
 		return textContent;
 	}
 	
-	public WebURL getWebURL(){
+	/*public WebURL getWebURL(){
 		return webURL;
-	}
+	}*/
 
 }
