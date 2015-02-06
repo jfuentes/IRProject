@@ -30,7 +30,7 @@ public class Crawler extends WebCrawler{
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("(http|https)://(.+)\\.ics\\.uci\\.edu(.*)");
+		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("^http://.*\\.ics\\.uci\\.edu/.*");
 	}
 
 	/**

@@ -81,6 +81,7 @@ public class BerkeleyDB {
 				store.close();
 			if(environment != null)
 				environment.close();
+			instance=null;
 		}catch(DatabaseException e){
 			System.out.println("Cannot close database");
 		}
