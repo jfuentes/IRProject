@@ -104,6 +104,7 @@ public class BerkeleyDB {
 	//get a website from DB
 	public WebURLExtension getWebpage(String url){
 		return websiteIndex.get(url);
+		
 	}
 
 	//delete a website

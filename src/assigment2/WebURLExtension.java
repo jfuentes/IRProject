@@ -16,6 +16,9 @@ public class WebURLExtension {
 	//private WebURL webURL;
 	private String textContent;
 	
+	//from webURL class
+	
+	
 	public WebURLExtension(){
 		
 	}

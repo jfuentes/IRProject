@@ -26,9 +26,10 @@ public class Crawler extends WebCrawler{
 	* crawling logic).
 	*/
 
-	public boolean shouldVisit(WebURL url) {
+	@Override
+	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
-		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("(http|https)://(.+).ics.uci.edu(.*)");
+		return !FILTERS.matcher(href).matches() && !TRAPS.matcher(href).matches() && href.matches("(http|https)://(.+)\\.ics\\.uci\\.edu(.*)");
 	}
 
 	/**
@@ -47,6 +48,12 @@ public class Crawler extends WebCrawler{
 			System.out.println("Text length: " + text.length());
 			System.out.println("Html length: " + html.length());
 			System.out.println("Number of outgoing links: " + links.size());
+			System.out.println("Domain's name: "+page.getWebURL().getDomain());
+			System.out.println("Subdomain's name: "+page.getWebURL().getSubDomain());
+			System.out.println("Path: "+page.getWebURL().getAnchor());
+			System.out.println("Anchor: "+page.getWebURL().getPath());
+			System.out.println("DocID: "+page.getWebURL().getDocid());
+			System.out.println("Parent DocID: "+page.getWebURL().getParentDocid());
 			db.putWebpage(new WebURLExtension(page.getWebURL(), text));
 		}
 		
