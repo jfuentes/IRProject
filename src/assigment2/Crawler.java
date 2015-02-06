@@ -1,6 +1,6 @@
 package assigment2;
 
-import java.util.List;
+
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -11,14 +11,15 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Crawler extends WebCrawler{
-	BerkeleyDB db=BerkeleyDB.getInstance();
+	private BerkeleyDB db=BerkeleyDB.getInstance();
+	private long visitedWebpages=0;
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" 
                 + "|png|tiff?|mid|mp2|mp3|mp4"
                 + "|wav|avi|mov|mpeg|ram|m4v|pdf" 
                 + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 	
-	private final static Pattern TRAPS = Pattern.compile("(.*calendar.*month=.*year=.*)");
+	private final static Pattern TRAPS = Pattern.compile(".*[\\?@=].*");
 
 	/**
 	* You should implement this function to specify whether
@@ -54,11 +55,18 @@ public class Crawler extends WebCrawler{
 			System.out.println("Anchor: "+page.getWebURL().getPath());
 			System.out.println("DocID: "+page.getWebURL().getDocid());
 			System.out.println("Parent DocID: "+page.getWebURL().getParentDocid());
-			db.putWebpage(new WebURLExtension(page.getWebURL(), text));
+			db.putWebpage(new WebURLExtension(page.getWebURL().getURL(), text, page.getWebURL().getDocid(), 
+					page.getWebURL().getParentDocid(), page.getWebURL().getParentUrl(), page.getWebURL().getDomain(), 
+					page.getWebURL().getSubDomain(), page.getWebURL().getPath(), page.getWebURL().getAnchor()));
 		}
+		visitedWebpages++;
 		
 		
 		
+	}
+	
+	public long getVisitedWebpages(){
+		return visitedWebpages;
 	}
 	
 }

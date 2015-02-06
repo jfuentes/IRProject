@@ -1,5 +1,7 @@
 package assigment2;
 
+import java.util.Scanner;
+
 import persistence.BerkeleyDB;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -9,13 +11,51 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class CrawlerController {
-
+	
 	public static void main(String[] args) throws Exception {
+		Scanner sc= new Scanner(System.in);
+		int option;
+		do{
+		System.out.println("*** Welcome to IR Crawling Project ***");
+		System.out.println();
+		System.out.println("Menu:");
+		System.out.println("1.- Start or Resume Crawling ics.uci.edu");
+		System.out.println("2.- Compute Statistics");
+		System.out.println("3.- Exit");
+		System.out.print("Option: ");
+		option=sc.nextInt();
+		switch(option){
+		case 1: runCrawler();
+				break;
+		case 2: showStatistics();
+				break;
+		case 3: System.exit(0);
+		default: System.out.println("Invalid option");
+		}
+		}while(option!=3);
+		
+	}
+
+	private static void showStatistics() {
+		// TODO Auto-generated method stub
+		System.out.println("***********************************");
+        System.out.println("****      Statistics     ****");
+        System.out.println("***********************************");
+        System.out.println();
+        CrawlerStatistics.getSubdomains();
+    
+       
+	}
+	
+	
+
+	public static void runCrawler() throws Exception {
 		// TODO Auto-generated method stub
 		String crawlStorageFolder = "data";
-		String userAgent = "UCI WebCrawler - jfuente2 95686428- hke1 62087924" ;
+		String userAgent = "UCI WebCrawler - jfuente2 95686428 hke1 62087924" ;
         int numberOfCrawlers = 7;
         
+        long startTime = System.currentTimeMillis();
         
         
         CrawlConfig config = new CrawlConfig();
@@ -46,6 +86,25 @@ public class CrawlerController {
          */
         controller.start(Crawler.class, numberOfCrawlers);  
         BerkeleyDB.close();
+        
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime - startTime);
+        
+        System.out.println("***********************************");
+        System.out.println("****      Final Statistics     ****");
+        System.out.println("***********************************");
+        System.out.println();
+        System.out.println("Total time spent to crawl: "+getElapsedTimeHoursMinutesFromMilliseconds(totalTime));
 	}
+	
+	public static String getElapsedTimeHoursMinutesFromMilliseconds(long milliseconds) {
+        String format = String.format("%%0%dd", 2);
+        long elapsedTime = milliseconds / 1000;
+        String seconds = String.format(format, elapsedTime % 60);
+        String minutes = String.format(format, (elapsedTime % 3600) / 60);
+        String hours = String.format(format, elapsedTime / 3600);
+        String time =  hours + ":" + minutes + ":" + seconds;
+        return time;
+    }
 
 }

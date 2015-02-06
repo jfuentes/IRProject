@@ -1,17 +1,12 @@
 package persistence;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.sleepycat.persist.StoreConfig;
@@ -103,8 +98,16 @@ public class BerkeleyDB {
 	
 	//get a website from DB
 	public WebURLExtension getWebpage(String url){
-		return websiteIndex.get(url);
+		return websiteIndex.get(url);		
+	}
+	
+	public long getTotalWebpages(){
+		return websiteIndex.count();
 		
+	}
+	
+	public EntityCursor<WebURLExtension> getCursorWebURLs(){
+		return websiteIndex.entities();
 	}
 
 	//delete a website
