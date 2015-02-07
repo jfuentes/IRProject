@@ -14,10 +14,11 @@ public class Crawler extends WebCrawler{
 	private BerkeleyDB db=BerkeleyDB.getInstance();
 	private long visitedWebpages=0;
 
-	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" 
+	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|csv|js|bmp|gif|jpe?g|cnf" 
                 + "|png|tiff?|mid|mp2|mp3|mp4"
-                + "|wav|avi|mov|mpeg|ram|m4v|pdf" 
-                + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+                + "|uai"
+                + "|wav|avi|mov|mpeg|ram|m4v|pdf|ppt|exe|ps|db" 
+                + "|rm|smil|wmv|swf|wma|zip|rar|gz|tar))$");
 	
 	private final static Pattern TRAPS = Pattern.compile(".*[\\?@=].*");
 

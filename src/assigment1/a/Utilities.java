@@ -63,7 +63,7 @@ public class Utilities {
 
 		for (String token : text.split("\\W+")) { // W means non-word as a
 													// delimiter
-			if (token.length() > 0)
+			if (token.length() > 1 && !isNumeric(token))
 				list.add(token.toLowerCase());
 		}
 
@@ -76,7 +76,7 @@ public class Utilities {
 
 		for (String token : text.split("\\W+")) { // W means non-word as a
 													// delimiter
-			if (token.length() > 0 && !stopwordsSet.contains(token))
+			if (token.length() > 1 && !stopwordsSet.contains(token) && !isNumeric(token))
 				list.add(token.toLowerCase());
 		}
 
@@ -117,6 +117,10 @@ public class Utilities {
 
 		return list;
 	}
+	
+	public static boolean isNumeric(String s) {  
+	    return s.matches("[-+]?\\d*\\.?\\d+");  
+	} 
 
 	public static void print(List<String> list) {
 

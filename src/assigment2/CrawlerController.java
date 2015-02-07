@@ -48,6 +48,7 @@ public class CrawlerController {
 		System.out.println("****      Statistics     ****");
 		System.out.println("***********************************");
 		System.out.println();
+		System.out.println("The total number of webpages is: "+CrawlerStatistics.getTotalUniquePages());
 		CrawlerStatistics.getSubdomains();
 		System.out.println("The longest page in terms of number of words is: "
 				+ CrawlerStatistics.getLongestPage().getURL());
@@ -68,6 +69,7 @@ public class CrawlerController {
 		config.setCrawlStorageFolder(crawlStorageFolder);
 		config.setUserAgentString(userAgent);
 		config.setPolitenessDelay(500);
+		config.setResumableCrawling(true);
 
 		/*
 		 * Instantiate the controller for this crawl.
