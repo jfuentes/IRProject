@@ -16,9 +16,9 @@ public class Crawler extends WebCrawler{
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|csv|js|bmp|gif|jpe?g|cnf" 
                 + "|png|tiff?|mid|mp2|mp3|mp4"
-                + "|uai"
+                + "|uai|pptx"
                 + "|wav|avi|mov|mpeg|ram|m4v|pdf|ppt|exe|ps|db" 
-                + "|rm|smil|wmv|swf|wma|zip|rar|gz|tar))$");
+                + "|rm|smil|wmv|swf|wma|zip|rar|gz|tar|bz2))$");
 	
 	private final static Pattern TRAPS = Pattern.compile(".*[\\?@=].*");
 

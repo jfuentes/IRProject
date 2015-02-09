@@ -2,6 +2,7 @@ package assigment2;
 
 import java.util.Scanner;
 
+import assigment1.a.Pair;
 import persistence.BerkeleyDB;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -50,8 +51,9 @@ public class CrawlerController {
 		System.out.println();
 		System.out.println("The total number of webpages is: "+CrawlerStatistics.getTotalUniquePages());
 		CrawlerStatistics.getSubdomains();
+		Pair<WebURLExtension, Long> url=CrawlerStatistics.getLongestPage();
 		System.out.println("The longest page in terms of number of words is: "
-				+ CrawlerStatistics.getLongestPage().getURL());
+				+ url.first.getURL()+" whose number of words is "+url.second);
 		CrawlerStatistics.get500MostCommonWords();
 		CrawlerStatistics.get20MostCommonTwoGrams();
 

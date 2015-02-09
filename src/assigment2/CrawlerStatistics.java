@@ -95,7 +95,7 @@ public class CrawlerStatistics {
 		
 	}
 	
-	public static WebURLExtension getLongestPage(){
+	public static Pair<WebURLExtension, Long> getLongestPage(){
 		WebURLExtension longestPage = null;
 		long longestNumberWords=0;
 		BerkeleyDB db=BerkeleyDB.getInstance();
@@ -115,7 +115,7 @@ public class CrawlerStatistics {
 			 webURLs.close();
 		 }
 		
-		return longestPage;
+		return Pair.createPair(longestPage, longestNumberWords);
 	}
 	
 	public static void get500MostCommonWords(){
