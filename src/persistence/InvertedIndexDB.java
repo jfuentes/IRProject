@@ -114,4 +114,8 @@ public class InvertedIndexDB {
 		public void deleteWebpage(String url){
 			invertedIndex.delete(url);
 		}
+		
+		public void syncStore(){
+			store.sync();
+		}
 }
