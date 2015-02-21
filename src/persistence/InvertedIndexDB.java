@@ -59,6 +59,7 @@ public class InvertedIndexDB {
 			EnvironmentConfig envConf = new EnvironmentConfig();
 			StoreConfig storeConf = new StoreConfig();
 
+		
 			envConf.setAllowCreate(true);
 			envConf.setTransactional(true);
 			storeConf.setAllowCreate(true);
@@ -93,7 +94,7 @@ public class InvertedIndexDB {
 		//put a website in DB
 		public void putTerm(TermInvertedIndex term){
 			invertedIndex.put(term);
-			store.sync();
+			//store.sync();
 		}
 		
 		//get a website from DB

@@ -38,7 +38,7 @@ public class IndexController {
 			default:
 				System.out.println("Invalid option");
 			}
-		} while (option != 3);
+		} while (option != 4);
 		BerkeleyDB.close();
 		InvertedIndexDB.close();
 		sc.close();

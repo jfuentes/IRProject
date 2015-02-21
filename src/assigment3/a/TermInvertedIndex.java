@@ -28,9 +28,9 @@ public class TermInvertedIndex {
 	
 	public String toString(){
 		String s="";
-		s+=term+": ";
+		s+=term+": "+list.size()+" results\n";
 		for(DocInvertedIndex doc: list)
-			s+=doc.toString()+" ";
+			s+="  "+doc.toString()+"\n";
 		return s;
 	}
 

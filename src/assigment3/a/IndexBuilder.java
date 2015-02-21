@@ -43,6 +43,7 @@ public class IndexBuilder {
 		PrintWriter writer;
 		BufferedReader bufferReader = null;
 		
+		
 			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
  
 				//get information from database of crawler
@@ -228,8 +229,11 @@ public class IndexBuilder {
 			System.out.println("Fourth file created");
 		
 			webURLs.close();
+			resultToFile=null; //free memory
 			
-			
+			webURLs.close();
+		
+		
 			//Read the index from the file to put into the database
 			
 			//Terms starting with a-d
@@ -273,6 +277,8 @@ public class IndexBuilder {
 					ex.printStackTrace();
 				}
 			}
+			indexDB.syncStore();
+			System.out.println("First file indexed");
 			
 			//Terms starting with e-g
 			try {
@@ -315,7 +321,8 @@ public class IndexBuilder {
 					ex.printStackTrace();
 				}
 			}
-			
+			indexDB.syncStore();
+			System.out.println("Second file indexed");
 			
 			//Terms starting with h-s
 			try {
@@ -358,7 +365,8 @@ public class IndexBuilder {
 					ex.printStackTrace();
 				}
 			}
-			
+			indexDB.syncStore();
+			System.out.println("Third file indexed");
 			
 			//Terms starting with t-z
 			try {
@@ -401,7 +409,8 @@ public class IndexBuilder {
 					ex.printStackTrace();
 				}
 			}
-			
+			indexDB.syncStore();
+			System.out.println("Fourth file indexed");
 	
 	}
 

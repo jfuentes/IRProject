@@ -7,7 +7,7 @@ import com.sleepycat.persist.model.PrimaryKey;
 
 @Persistent public class DocInvertedIndex {
 	
-	@PrimaryKey
+
 	private String document;
 	private ArrayList<Integer> locations= new ArrayList<Integer>();
 	
@@ -26,10 +26,10 @@ import com.sleepycat.persist.model.PrimaryKey;
 	public String toString(){
 		String s="";
 		s+=document;
-		s+="["+locations.size()+"|";
+		s+="  "+locations.size()+" matches [";
 		for(Integer location: locations)
-			s+=location+",";
-		s+="]";
+			s+=" "+location;
+		s+=" ]";
 		return s;
 	}
 
