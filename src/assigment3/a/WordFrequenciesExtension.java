@@ -20,7 +20,7 @@ public class WordFrequenciesExtension {
 				List<Integer> oldlist = hashMap.get(s);
 				//oldlist.set(0, oldlist.get(0)+1);
 				oldlist.add(p);
-				//hashMap.put(s, oldlist);
+				hashMap.put(s, oldlist);
 			}else{
 				List<Integer> newlist = new ArrayList<Integer>();
 				//newlist.add(1);

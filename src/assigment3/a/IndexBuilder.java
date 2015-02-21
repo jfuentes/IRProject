@@ -1,12 +1,19 @@
 package assigment3.a;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import persistence.BerkeleyDB;
 import persistence.InvertedIndexDB;
+import assigment1.a.Pair;
 import assigment1.a.Utilities;
 import assigment2.WebURLExtension;
 
@@ -21,73 +28,380 @@ public class IndexBuilder {
 		EntityCursor<WebURLExtension> webURLs = db.getCursorWebURLs();	
 		
 		//HashMap<String, TermInvertedIndex> hashIndex= new HashMap<String, TermInvertedIndex>();
-		TermInvertedIndex term;
+		
 				
-			
+		HashMap<String, List<Pair<String, List<Integer>>>> resultToFile = new HashMap<String, List<Pair<String, List<Integer>>>>();
+		String pathOut1 = "data/temp/outcome_a_d.txt";
+		String pathOut2 = "data/temp/outcome_e_g.txt";
+		String pathOut3 = "data/temp/outcome_h_s.txt";
+		String pathOut4 = "data/temp/outcome_t_z.txt";
+		List<String> tokens;
+		HashMap<String, List<Integer>> wordfreq;
+		String Url;
+		
+		//File I/O
+		PrintWriter writer;
+		BufferedReader bufferReader = null;
+		
 			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
  
 				//get information from database of crawler
-				List<String> tokens = Utilities.tokenizeString(entity.getTextContent());
-				HashMap<String, List<Integer>> wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
-				String Url = entity.getURL();
-				
-				Iterator<String> iterator= wordfreq.keySet().iterator();
-				
-				while(iterator.hasNext()){
-					String s = iterator.next(); //next term
-					if((term =indexDB.getTerm(s))!=null){ //the hashIndex contains the term, so add the document
-						DocInvertedIndex doc=new DocInvertedIndex(Url);
-						for(Integer location: wordfreq.get(s)){
-							doc.addLocation(location);
+				tokens = Utilities.tokenizeString(entity.getTextContent());
+				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				Url = entity.getURL();
+			
+				for(String s: wordfreq.keySet()) {
+					if(s.charAt(0)<='d') {
+						if(resultToFile.get(s)==null) {
+							List<Pair<String, List<Integer>>> newlist= new ArrayList<Pair<String, List<Integer>>>();
+							newlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, newlist);
+				    	}
+						else {
+							List<Pair<String, List<Integer>>> oldlist = resultToFile.get(s);
+							oldlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, oldlist);
 						}
-						term.addDocument(doc);
-					}else{ //otherwise create the term
-						TermInvertedIndex newTerm = new TermInvertedIndex(s);
-						DocInvertedIndex doc=new DocInvertedIndex(Url);
-						for(Integer location: wordfreq.get(s)){
-							doc.addLocation(location);
-						}
-						newTerm.addDocument(doc);
-						indexDB.putTerm(newTerm);
 					}
 				}
 				
-				//indexDB.syncStore();
 				
-				System.out.println(Url);
 			}
 			
-			/*
+			
 			try {
-				PrintWriter writer = new PrintWriter(pathOut);
-				for (String s: result_part1.keySet()) {
-					term_num++;
-					writer.print(s);
-					int df = result_part1.get(s).size();
-					double idf = Math.log10(N/df);
-					writer.print("? idf=" + idf);
-					for (Pair<String, List<Integer>> p : result_part1.get(s)) {
-						writer.print("? url=" + p.first);
-						int tf = p.second.get(0);
-						writer.print("? tf-idf=" + idf*Math.log(1+tf));
-						writer.print("? tf=" + tf);
-						writer.print("? position=" + p.second.subList(1,1+tf));
+				writer = new PrintWriter(pathOut1);
+				for (String s: resultToFile.keySet()) {
+					writer.print(s+"|");
+					List<Pair<String, List<Integer>>> pairs= resultToFile.get(s);
+					for(Pair<String, List<Integer>> pair: pairs){
+						writer.print(pair.first);
+						for(Integer location: pair.second){
+							writer.print(" "+location);
+						}
+						writer.print("|");
 					}
-					writer.println("");
 					writer.println("");
 				}
 				writer.close();    
 			} catch (Exception e) {
-			System.out.println("There is a problem writing the file.");
+			System.out.println("There is a problem writing the file 1.");
 			}	
-			*/
+			System.out.println("First file created");
 			
+			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
+				 
+				//get information from database of crawler
+				tokens = Utilities.tokenizeString(entity.getTextContent());
+				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				Url = entity.getURL();
+			
+				for(String s: wordfreq.keySet()) {
+					if(s.charAt(0)>'e' && s.charAt(0)<='g') {
+						if(resultToFile.get(s)==null) {
+							List<Pair<String, List<Integer>>> newlist= new ArrayList<Pair<String, List<Integer>>>();
+							newlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, newlist);
+				    	}
+						else {
+							List<Pair<String, List<Integer>>> oldlist = resultToFile.get(s);
+							oldlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, oldlist);
+						}
+					}
+				}
+				
+				
+			}
+			
+			
+			try {
+				writer = new PrintWriter(pathOut2);
+				for (String s: resultToFile.keySet()) {
+					writer.print(s+"|");
+					List<Pair<String, List<Integer>>> pairs= resultToFile.get(s);
+					for(Pair<String, List<Integer>> pair: pairs){
+						writer.print(pair.first);
+						for(Integer location: pair.second){
+							writer.print(" "+location);
+						}
+						writer.print("|");
+					}
+					writer.println("");
+				}
+				writer.close();    
+			} catch (Exception e) {
+			System.out.println("There is a problem writing the file 2.");
+			}	
+			System.out.println("Second file created");
+			
+			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
+				 
+				//get information from database of crawler
+				tokens = Utilities.tokenizeString(entity.getTextContent());
+				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				Url = entity.getURL();
+			
+				for(String s: wordfreq.keySet()) {
+					if(s.charAt(0)>'g' && s.charAt(0)<='s') {
+						if(resultToFile.get(s)==null) {
+							List<Pair<String, List<Integer>>> newlist= new ArrayList<Pair<String, List<Integer>>>();
+							newlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, newlist);
+				    	}
+						else {
+							List<Pair<String, List<Integer>>> oldlist = resultToFile.get(s);
+							oldlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, oldlist);
+						}
+					}
+				}
+				
+				
+			}
+			
+			
+			try {
+				writer = new PrintWriter(pathOut3);
+				for (String s: resultToFile.keySet()) {
+					writer.print(s+"|");
+					List<Pair<String, List<Integer>>> pairs= resultToFile.get(s);
+					for(Pair<String, List<Integer>> pair: pairs){
+						writer.print(pair.first);
+						for(Integer location: pair.second){
+							writer.print(" "+location);
+						}
+						writer.print("|");
+					}
+					writer.println("");
+				}
+				writer.close();    
+			} catch (Exception e) {
+			System.out.println("There is a problem writing the file 3.");
+			}	
+			System.out.println("Third file created");
+			
+			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
+				 
+				//get information from database of crawler
+				tokens = Utilities.tokenizeString(entity.getTextContent());
+				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				Url = entity.getURL();
+			
+				for(String s: wordfreq.keySet()) {
+					if(s.charAt(0)>'s') {
+						if(resultToFile.get(s)==null) {
+							List<Pair<String, List<Integer>>> newlist= new ArrayList<Pair<String, List<Integer>>>();
+							newlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, newlist);
+				    	}
+						else {
+							List<Pair<String, List<Integer>>> oldlist = resultToFile.get(s);
+							oldlist.add(Pair.createPair(Url, wordfreq.get(s)));
+							resultToFile.put(s, oldlist);
+						}
+					}
+				}
+				
+				
+			}
+			
+			
+			try {
+				writer = new PrintWriter(pathOut4);
+				for (String s: resultToFile.keySet()) {
+					writer.print(s+"|");
+					List<Pair<String, List<Integer>>> pairs= resultToFile.get(s);
+					for(Pair<String, List<Integer>> pair: pairs){
+						writer.print(pair.first);
+						for(Integer location: pair.second){
+							writer.print(" "+location);
+						}
+						writer.print("|");
+					}
+					writer.println("");
+				}
+				writer.close();    
+			} catch (Exception e) {
+			System.out.println("There is a problem writing the file 4.");
+			}	
+			System.out.println("Fourth file created");
 		
 			webURLs.close();
 			
 			
-			//System.out.println((endTime-startTime)/1000 + " s");
-			//System.out.println("Doc num = " + doc_num + " AND Term num =" + term_num);
+			//Read the index from the file to put into the database
+			
+			//Terms starting with a-d
+			try {
+				 
+				String sCurrentLine;
+	 
+				bufferReader = new BufferedReader(new FileReader(pathOut1));
+	 
+				while ((sCurrentLine = bufferReader.readLine()) != null) {
+					StringTokenizer stk1= new StringTokenizer(sCurrentLine, "|");
+					//get the term
+					TermInvertedIndex term=new TermInvertedIndex(stk1.nextToken());
+					
+					//get the set of documents
+					while(stk1.hasMoreTokens()){
+						String document = stk1.nextToken();
+						StringTokenizer stk2 = new StringTokenizer(document, " ");
+						
+						//get the url
+						DocInvertedIndex doc = new DocInvertedIndex(stk2.nextToken());
+						
+						//get the locations
+						while(stk2.hasMoreTokens()){
+							doc.addLocation(Integer.parseInt(stk2.nextToken()));
+						}
+						//add the document to the term
+						term.addDocument(doc);
+					}
+					
+					//store the term into the database
+					indexDB.putTerm(term);
+				}
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (bufferReader != null) bufferReader.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+			//Terms starting with e-g
+			try {
+				 
+				String sCurrentLine;
+	 
+				bufferReader = new BufferedReader(new FileReader(pathOut2));
+	 
+				while ((sCurrentLine = bufferReader.readLine()) != null) {
+					StringTokenizer stk1= new StringTokenizer(sCurrentLine, "|");
+					//get the term
+					TermInvertedIndex term=new TermInvertedIndex(stk1.nextToken());
+					
+					//get the set of documents
+					while(stk1.hasMoreTokens()){
+						String document = stk1.nextToken();
+						StringTokenizer stk2 = new StringTokenizer(document, " ");
+						
+						//get the url
+						DocInvertedIndex doc = new DocInvertedIndex(stk2.nextToken());
+						
+						//get the locations
+						while(stk2.hasMoreTokens()){
+							doc.addLocation(Integer.parseInt(stk2.nextToken()));
+						}
+						//add the document to the term
+						term.addDocument(doc);
+					}
+					
+					//store the term into the database
+					indexDB.putTerm(term);
+				}
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (bufferReader != null) bufferReader.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+			
+			//Terms starting with h-s
+			try {
+				 
+				String sCurrentLine;
+	 
+				bufferReader = new BufferedReader(new FileReader(pathOut3));
+	 
+				while ((sCurrentLine = bufferReader.readLine()) != null) {
+					StringTokenizer stk1= new StringTokenizer(sCurrentLine, "|");
+					//get the term
+					TermInvertedIndex term=new TermInvertedIndex(stk1.nextToken());
+					
+					//get the set of documents
+					while(stk1.hasMoreTokens()){
+						String document = stk1.nextToken();
+						StringTokenizer stk2 = new StringTokenizer(document, " ");
+						
+						//get the url
+						DocInvertedIndex doc = new DocInvertedIndex(stk2.nextToken());
+						
+						//get the locations
+						while(stk2.hasMoreTokens()){
+							doc.addLocation(Integer.parseInt(stk2.nextToken()));
+						}
+						//add the document to the term
+						term.addDocument(doc);
+					}
+					
+					//store the term into the database
+					indexDB.putTerm(term);
+				}
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (bufferReader != null) bufferReader.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
+			
+			//Terms starting with t-z
+			try {
+				 
+				String sCurrentLine;
+	 
+				bufferReader = new BufferedReader(new FileReader(pathOut4));
+	 
+				while ((sCurrentLine = bufferReader.readLine()) != null) {
+					StringTokenizer stk1= new StringTokenizer(sCurrentLine, "|");
+					//get the term
+					TermInvertedIndex term=new TermInvertedIndex(stk1.nextToken());
+					
+					//get the set of documents
+					while(stk1.hasMoreTokens()){
+						String document = stk1.nextToken();
+						StringTokenizer stk2 = new StringTokenizer(document, " ");
+						
+						//get the url
+						DocInvertedIndex doc = new DocInvertedIndex(stk2.nextToken());
+						
+						//get the locations
+						while(stk2.hasMoreTokens()){
+							doc.addLocation(Integer.parseInt(stk2.nextToken()));
+						}
+						//add the document to the term
+						term.addDocument(doc);
+					}
+					
+					//store the term into the database
+					indexDB.putTerm(term);
+				}
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (bufferReader != null) bufferReader.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			
 	
 	}
 
