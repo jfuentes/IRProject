@@ -1,7 +1,6 @@
 package assigment3.a;
 import java.util.ArrayList;
 
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
 
@@ -31,6 +30,17 @@ public class TermInvertedIndex {
 		s+=term+": "+list.size()+" results\n";
 		for(DocInvertedIndex doc: list)
 			s+="  "+doc.toString()+"\n";
+		return s;
+	}
+
+	public String toStringWithTfidf(long corpus) {
+		// TODO Auto-generated method stub
+		String s="";
+		s+=term+": "+list.size()+" results\n";
+		//IDF
+		double idf=Math.log10(corpus/list.size());
+		for(DocInvertedIndex doc: list)
+			s+="  "+doc.toStringWithTfidf(idf)+"\n";
 		return s;
 	}
 

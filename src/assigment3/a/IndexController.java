@@ -51,6 +51,14 @@ public class IndexController {
 		System.out.println("***********************************");
 		System.out.println();
 		
+		BerkeleyDB db= BerkeleyDB.getInstance();
+		InvertedIndexDB index= InvertedIndexDB.getInstance();
+		System.out.println("Index Details");
+		System.out.println("Total number of documents: "+db.getTotalWebpages());
+		System.out.println("Total numver of unique words: "+index.getTotalTerms());
+		System.out.println("Total space of index on disk");
+		index.printSpaceUtilization(System.out);
+		
 
 	}
 	
@@ -63,10 +71,15 @@ public class IndexController {
 		System.out.print("Enter the word to search: ");
 		String word = sc.next();
 		
+		
 		InvertedIndexDB index=InvertedIndexDB.getInstance();
 		TermInvertedIndex term = index.getTerm(word);
+		
+		long corpus = index.getTotalTerms();
+		
+		
 		if(term!=null)
-			System.out.println(term.toString());
+			System.out.println(term.toStringWithTfidf(corpus));
 		else
 			System.out.println("There are no documents with that query");
 

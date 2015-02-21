@@ -1,5 +1,7 @@
 package assigment3.a;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.sleepycat.persist.model.Persistent;
@@ -27,6 +29,24 @@ import com.sleepycat.persist.model.PrimaryKey;
 		String s="";
 		s+=document;
 		s+="  "+locations.size()+" matches [";
+		for(Integer location: locations)
+			s+=" "+location;
+		s+=" ]";
+		return s;
+	}
+
+	public String toStringWithTfidf(double idf) {
+		// TODO Auto-generated method stub
+		DecimalFormat df = new DecimalFormat("#.##");
+	    df.setRoundingMode(RoundingMode.FLOOR);
+
+	    //TF
+		long tf=locations.size();
+		double tfidf=(idf*(1+Math.log10(tf)));
+		
+		String s="";
+		s+=document;
+		s+="  "+locations.size()+" matches TF-IDF="+df.format(tfidf)+" [";
 		for(Integer location: locations)
 			s+=" "+location;
 		s+=" ]";
