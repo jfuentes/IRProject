@@ -84,19 +84,19 @@
 \maketitle 
 
 \section*{Inverted Index Implementation}
-The implementation of the index module (inverted index) was built by using a B-Tree data structure stored on disk. The Key value used in this index was the unique \textit{terms} retrieve from the websites in the previous part of the project.
+The implementation of the index module (inverted index) was built by using a B-Tree data structure stored on disk. The Key value used in this index were the unique \textit{terms} retrieve from the websites in the previous part of the project.
 
-It is important to remark that the B-Tree structure is not built in main memory due to the a big amount of memory that the set of website imply. To solve this problem a set of files on disk was used to create a pre-processing with the information needed to build the B-Tree in a second step. These file store all the information needed to create the inverted index by terms and documents (URLs). 
+It is important to remark that the B-Tree structure is not built in main memory due to the big amount of memory that the set of website implies. To solve this problem a set of files on disk was used to create a pre-processing with the information needed to build the B-Tree in a second step. These file store all the information needed to create the inverted index by terms and documents (URLs). 
 
 In short, the task of indexing consists in:
 \begin{enumerate}
-\item Read the information from crawled websites by parsing it and storing the result in files on disk. The general structure for each term on file is:
+\item Reading the information from crawled websites by parsing it and storing the result in files on disk. The general structure for each term on file is:
 
 $term_1|document_1 \ position_1 \ position_2|document_2 \ position_1 \ position_2$\\
 $...$\\
 $term_i|document_j \ position_1 \ ... \ position_k$  \\
 To avoid dealing with one big file with the whole information and the likely out of memory problem, the files are split according to the first letter of each term. For instance, the first file stores terms stating with \textit{a} until \textit{d} in the alphabet.
-\item Create the inverted index on disk whose keys are the terms and values the set of documents. This task is done by reading the different files, one term at a time and inserting it into the B-Tree.
+\item Creating the inverted index on disk whose keys are the terms and values the set of documents. This task is done by reading the different files, one term at a time and inserting it into the B-Tree.
 \end{enumerate}   
 To store the B-Tree on disk, the same database was used as the previous part of the project and it is BerkeleyDB.
 
@@ -105,7 +105,7 @@ Different classes and methods were created for this part of the project:
 \item \textit{InvertedIndexDB} (persistence package): This class has the objective of maintaining the inverted index on disk using BerkeleyDB. It provides methods to put and get terms from the index.
 \item method \textit{Utilities.computeWordWithPositions}: This processes a list of strings and returns a hash map with unique terms and their positions in the list.
 \item \textit{DocInvertedIndex}: This class represents a document (URL) that belongs to a term in the inverted index. It also has a list of positions where the term is located in the document.
-\item \textit{TermInvertedIndex}: This class represent a term  in the inverted index. It has a list of documents where the term is found.
+\item \textit{TermInvertedIndex}: This class represents a term  in the inverted index. It has a list of documents where the term is found.
 \item IndexBuilder: This class has a static method whose goal is to build the inverted index on disk.
 \item IndexController: This class has the main method and provides a menu with the following options:
 \begin{itemize}
@@ -123,7 +123,7 @@ The set of deliverables requested for this part of the project can be obtained b
 \begin{verbatim}
 Index Details
 Total number of documents: 51138
-Total numver of unique words: 199932
+Total number of unique words: 199932
 Total space of index on disk
   File    Size (KB)  % Used
 --------  ---------  ------
