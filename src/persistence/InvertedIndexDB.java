@@ -1,12 +1,14 @@
 package persistence;
 
 import java.io.File;
+import java.io.PrintStream;
 
 import assigment3.a.TermInvertedIndex;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import com.sleepycat.je.util.DbSpace;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
@@ -70,7 +72,7 @@ public class InvertedIndexDB {
 
 			environment = new Environment(dbDir, envConf);
 			store = new EntityStore(environment, "EntityStore", storeConf);
-
+			
 			invertedIndex = store.getPrimaryIndex(String.class, TermInvertedIndex.class);
 
 		}
@@ -118,5 +120,10 @@ public class InvertedIndexDB {
 		
 		public void syncStore(){
 			store.sync();
+		}
+		
+		public void printSpaceUtilization(PrintStream out){
+			DbSpace dbSpace= new DbSpace(environment, false, false, true);
+			dbSpace.print(out);
 		}
 }

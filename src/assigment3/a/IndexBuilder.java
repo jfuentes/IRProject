@@ -48,7 +48,7 @@ public class IndexBuilder {
  
 				//get information from database of crawler
 				tokens = Utilities.tokenizeString(entity.getTextContent());
-				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				wordfreq = Utilities.computeWordWithPositions(tokens);			
 				Url = entity.getURL();
 			
 				for(String s: wordfreq.keySet()) {
@@ -94,7 +94,7 @@ public class IndexBuilder {
 				 
 				//get information from database of crawler
 				tokens = Utilities.tokenizeString(entity.getTextContent());
-				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				wordfreq = Utilities.computeWordWithPositions(tokens);			
 				Url = entity.getURL();
 			
 				for(String s: wordfreq.keySet()) {
@@ -140,7 +140,7 @@ public class IndexBuilder {
 				 
 				//get information from database of crawler
 				tokens = Utilities.tokenizeString(entity.getTextContent());
-				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				wordfreq = Utilities.computeWordWithPositions(tokens);			
 				Url = entity.getURL();
 			
 				for(String s: wordfreq.keySet()) {
@@ -186,7 +186,7 @@ public class IndexBuilder {
 				 
 				//get information from database of crawler
 				tokens = Utilities.tokenizeString(entity.getTextContent());
-				wordfreq = WordFrequenciesExtension.computeWordFrequencies(tokens);			
+				wordfreq = Utilities.computeWordWithPositions(tokens);			
 				Url = entity.getURL();
 			
 				for(String s: wordfreq.keySet()) {

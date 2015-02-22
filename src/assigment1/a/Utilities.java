@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -127,6 +128,25 @@ public class Utilities {
 		for (String s : list)
 			System.out.println(s);
 
+	}
+	
+	public static HashMap<String, List<Integer>> computeWordWithPositions(List<String> list){
+		HashMap<String, List<Integer>> hashMap = new HashMap<String, List<Integer>>();
+		int p = 0;
+		for(String s: list){
+			if(hashMap.containsKey(s)){
+				List<Integer> oldlist = hashMap.get(s);
+				oldlist.add(p);
+				hashMap.put(s, oldlist);
+			}else{
+				List<Integer> newlist = new ArrayList<Integer>();
+				newlist.add(p);
+				hashMap.put(s, newlist);
+			}
+			p++;
+		}
+		
+		return hashMap;
 	}
 
 }

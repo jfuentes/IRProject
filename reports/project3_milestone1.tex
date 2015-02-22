@@ -1,0 +1,235 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+\addtolength{\oddsidemargin}{-.375in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.1in}
+
+	\addtolength{\topmargin}{-.475in}
+	\addtolength{\textheight}{1.15in}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{enumerate}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{graphicx}
+\usepackage{sectsty} % Allows customizing section commands
+
+\usepackage{algorithm2e}
+\usepackage{amsmath}
+
+
+\allsectionsfont{\textbf \normalfont} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conj}[theorem]{Conjecture}
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{CS221: Information Retrieval} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Report: Project 3 Milestone 1 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Joel Fuentes (95686428)  and Han Ke (62087924)} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle 
+
+\section*{Inverted Index Implementation}
+The implementation of the index module (inverted index) was built by using a B-Tree data structure stored on disk. The Key value used in this index was the unique \textit{terms} retrieve from the websites in the previous part of the project.
+
+It is important to remark that the B-Tree structure is not built in main memory due to the a big amount of memory that the set of website imply. To solve this problem a set of files on disk was used to create a pre-processing with the information needed to build the B-Tree in a second step. These file store all the information needed to create the inverted index by terms and documents (URLs). 
+
+In short, the task of indexing consists in:
+\begin{enumerate}
+\item Read the information from crawled websites by parsing it and storing the result in files on disk. The general structure for each term on file is:
+
+$term_1|document_1 \ position_1 \ position_2|document_2 \ position_1 \ position_2$\\
+$...$\\
+$term_i|document_j \ position_1 \ ... \ position_k$  \\
+To avoid dealing with one big file with the whole information and the likely out of memory problem, the files are split according to the first letter of each term. For instance, the first file stores terms stating with \textit{a} until \textit{d} in the alphabet.
+\item Create the inverted index on disk whose keys are the terms and values the set of documents. This task is done by reading the different files, one term at a time and inserting it into the B-Tree.
+\end{enumerate}   
+To store the B-Tree on disk, the same database was used as the previous part of the project and it is BerkeleyDB.
+
+Different classes and methods were created for this part of the project:
+\begin{itemize}
+\item \textit{InvertedIndexDB} (persistence package): This class has the objective of maintaining the inverted index on disk using BerkeleyDB. It provides methods to put and get terms from the index.
+\item method \textit{Utilities.computeWordWithPositions}: This processes a list of strings and returns a hash map with unique terms and their positions in the list.
+\item \textit{DocInvertedIndex}: This class represents a document (URL) that belongs to a term in the inverted index. It also has a list of positions where the term is located in the document.
+\item \textit{TermInvertedIndex}: This class represent a term  in the inverted index. It has a list of documents where the term is found.
+\item IndexBuilder: This class has a static method whose goal is to build the inverted index on disk.
+\item IndexController: This class has the main method and provides a menu with the following options:
+\begin{itemize}
+\item Build Index for ics.uci.edu (It may take a long time)
+\item Compute Deliverables
+\item Execute query (beta)
+\end{itemize}
+\end{itemize}
+
+From the menu presented in the program, it can be seen that the query engine was implemented but in a beta version. It works but with only one term at a time, which is a good advantage to the future part of this project.
+
+\section*{Deliverables}
+The set of deliverables requested for this part of the project can be obtained by running the program. The following section presents an extraction of the index characteristics:
+
+\begin{verbatim}
+Index Details
+Total number of documents: 51138
+Total numver of unique words: 199932
+Total space of index on disk
+  File    Size (KB)  % Used
+--------  ---------  ------
+0000005f       9202       0
+00000060       9586       0
+00000061       9758       0
+00000062       9762       0
+00000091       9153       0
+00000092       9415       0
+00000093       9018       0
+00000094       9730       0
+00000095       9765       0
+00000096       9765       0
+00000097       9762       0
+00000098       9707       0
+00000099       9454       0
+0000009a       8975       0
+0000009b       9757       0
+0000009c       9591       0
+0000009d       9762       0
+0000009e       9746       0
+0000009f       9740       0
+000000a0       9739       0
+000000a1       9765       0
+000000a2       9759       0
+000000a3       9763      53
+000000cb       5749      98
+000000a4       9760     100
+000000a5       9756     100
+000000a6       9627     100
+000000a7       9198     100
+000000a8       9397     100
+000000a9       9752     100
+000000aa       9765     100
+000000ab       9763     100
+000000ac       9595     100
+000000ad       9748     100
+000000ae       9712     100
+000000af       8120     100
+000000b0       9765     100
+000000b1       9745     100
+000000b2       9115     100
+000000b3       9757     100
+000000b4       9499     100
+000000b5       9765     100
+000000b6       9758     100
+000000b7       9751     100
+000000b8       9711     100
+000000b9       9640     100
+000000ba       9720     100
+000000bb       9761     100
+000000bc       9745     100
+000000bd       9702     100
+000000be       9686     100
+000000bf       9748     100
+000000c0       9719     100
+000000c1       9720     100
+000000c2       9764     100
+000000c3       9478     100
+000000c4       9257     100
+000000c5       9745     100
+000000c6       9759     100
+000000c7       8863     100
+000000c8       6592     100
+000000c9       9568     100
+000000ca       9763     100
+ TOTALS      597741      64
+(LN size correction factor: NaN)
+\end{verbatim}
+\newpage
+In addition, an example of the query engine is presented in the following segment. Each one of the results presents its URL, number of matches in the document, TF-IDF and the term position in the document.
+
+The term used for this demonstration is \textbf{mondego} by using the entire information retrieved from ics.uci.edu:
+
+\begin{small}
+
+\begin{verbatim}
+***********************************
+****      Query     ****
+***********************************
+
+Enter the word to search: mondego
+mondego: 19 results
+  http://mondego.ics.uci.edu/  3 matches TF-IDF=5.94 [ 35 39 296 ]
+  http://mondego.ics.uci.edu/datasets/  1 matches TF-IDF=4.02 [ 30 ]
+  http://mondego.ics.uci.edu/datasets/wikipedia-events/  1 matches TF-IDF=4.02 [ 14 ]
+  http://mondego.ics.uci.edu/datasets/wikipedia-events/files/  1 matches TF-IDF=4.02 [ 22 ]
+  http://sdcl.ics.uci.edu/2012/05/calico-for-the-mondego-group/  1 matches TF-IDF=4.02 [ 10 ]
+  http://www.ics.uci.edu/community/news/notes/  2 matches TF-IDF=5.23 [ 340 5043 ]
+  http://www.ics.uci.edu/community/news/notes/index  2 matches TF-IDF=5.23 [ 340 5043 ]
+  http://www.ics.uci.edu/community/news/notes/index.php  2 matches TF-IDF=5.23 [ 340 5043 ]
+  http://www.ics.uci.edu/community/news/notes/notes_2013.php  1 matches TF-IDF=4.02 [ 3973 ]
+  http://www.ics.uci.edu/~djp3/classes/2006_03_30_ICS105/  1 matches TF-IDF=4.02 [ 649 ]
+  http://www.ics.uci.edu/~djp3/classes/2006_03_30_ICS105/Resources/AnteaterIdol.html  2 matches TF-IDF=5.23 [ 580 583 ]
+  http://www.ics.uci.edu/~djp3/classes/2006_03_30_ICS105/index.html  1 matches TF-IDF=4.02 [ 649 ]
+  http://www.ics.uci.edu/~kay/courses/i141/hw/asst3.html  1 matches TF-IDF=4.02 [ 47 ]
+  http://www.ics.uci.edu/~lopes/  2 matches TF-IDF=5.23 [ 31 125 ]
+  http://www.ics.uci.edu/~lopes/datasets/  1 matches TF-IDF=4.02 [ 270 ]
+  http://www.ics.uci.edu/~lopes/datasets/Koders-log-2007.html  1 matches TF-IDF=4.02 [ 265 ]
+  http://www.ics.uci.edu/~lopes/datasets/SDS_source-repo-18k.html  1 matches TF-IDF=4.02 [ 335 ]
+  http://www.ics.uci.edu/~lopes/datasets/index.html  1 matches TF-IDF=4.02 [ 270 ]
+  http://www.ics.uci.edu/~lopes/datasets/sourcerer-maven-aug12.html  1 matches TF-IDF=4.02 [ 348 ]
+
+\end{verbatim}
+\end{small}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
