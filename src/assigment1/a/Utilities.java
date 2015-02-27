@@ -30,7 +30,7 @@ public class Utilities {
 
 			while (in.ready()) {
 				String line = in.readLine();
-				for (String token : line.split("\\W+")) { // W means non-word as
+				for (String token : line.split("[\\W_]+")) { // W means non-word as
 															// a delimiter
 					if (token.length() > 0)
 						list.add(token.toLowerCase());
@@ -62,7 +62,7 @@ public class Utilities {
 
 		ArrayList<String> list = new ArrayList<String>();
 
-		for (String token : text.split("\\W+")) { // W means non-word as a
+		for (String token : text.split("[\\W_]+")) { // W means non-word as a
 													// delimiter
 			if (token.length() > 1 && !isNumeric(token))
 				list.add(token.toLowerCase());
@@ -75,7 +75,7 @@ public class Utilities {
 
 		ArrayList<String> list = new ArrayList<String>();
 
-		for (String token : text.split("\\W+")) { // W means non-word as a
+		for (String token : text.split("[\\W_]+")) { // W means non-word as a
 													// delimiter
 			if (token.length() > 1 && !stopwordsSet.contains(token) && !isNumeric(token))
 				list.add(token.toLowerCase());

@@ -31,10 +31,10 @@ public class IndexBuilder {
 		
 				
 		HashMap<String, List<Pair<String, List<Integer>>>> resultToFile = new HashMap<String, List<Pair<String, List<Integer>>>>();
-		String pathOut1 = "data/temp/outcome_a_d.txt";
-		String pathOut2 = "data/temp/outcome_e_g.txt";
-		String pathOut3 = "data/temp/outcome_h_s.txt";
-		String pathOut4 = "data/temp/outcome_t_z.txt";
+		String pathOut1 = "F:\\GitHub\\IRProject-master\\data\\temp\\outcome_a_d.txt";
+		String pathOut2 = "F:\\GitHub\\IRProject-master\\data\\temp\\outcome_e_g.txt";
+		String pathOut3 = "F:\\GitHub\\IRProject-master\\data\\temp\\outcome_h_s.txt";
+		String pathOut4 = "F:\\GitHub\\IRProject-master\\data\\temp\\outcome_t_z.txt";
 		List<String> tokens;
 		HashMap<String, List<Integer>> wordfreq;
 		String Url;
@@ -90,6 +90,9 @@ public class IndexBuilder {
 			}	
 			System.out.println("First file created");
 			
+			
+			resultToFile = new HashMap<String, List<Pair<String, List<Integer>>>>();
+			
 			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
 				 
 				//get information from database of crawler
@@ -136,6 +139,9 @@ public class IndexBuilder {
 			}	
 			System.out.println("Second file created");
 			
+			
+			resultToFile = new HashMap<String, List<Pair<String, List<Integer>>>>();
+			
 			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
 				 
 				//get information from database of crawler
@@ -181,6 +187,9 @@ public class IndexBuilder {
 			System.out.println("There is a problem writing the file 3.");
 			}	
 			System.out.println("Third file created");
+			
+			
+			resultToFile = new HashMap<String, List<Pair<String, List<Integer>>>>();
 			
 			for (WebURLExtension entity = webURLs.first(); entity != null; entity = webURLs.next()) {
 				 

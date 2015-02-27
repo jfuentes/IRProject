@@ -69,11 +69,14 @@ public class IndexController {
 		System.out.println("***********************************");
 		System.out.println();
 		System.out.print("Enter the word to search: ");
-		String word = sc.next();
 		
+		sc.nextLine();
+		String word = sc.nextLine();
+		//System.out.println(word);
 		
 		InvertedIndexDB index=InvertedIndexDB.getInstance();
-		TermInvertedIndex term = index.getTerm(word);
+		
+/*		TermInvertedIndex term = index.getTerm(word);
 		
 		long corpus = index.getTotalTerms();
 		
@@ -82,6 +85,10 @@ public class IndexController {
 			System.out.println(term.toStringWithTfidf(corpus));
 		else
 			System.out.println("There are no documents with that query");
+*/
+		
+		QueryProcessor qp = new QueryProcessor(word, index);
+		qp.DoSearch();
 
 	}
 }

@@ -3,6 +3,7 @@ package assigment3.a;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
@@ -51,6 +52,14 @@ import com.sleepycat.persist.model.PrimaryKey;
 			s+=" "+location;
 		s+=" ]";
 		return s;
+	}
+	
+	public String getDocument() {
+		return document;
+	}
+	
+	public List<Integer> getLocations() {
+		return locations;
 	}
 
 }
