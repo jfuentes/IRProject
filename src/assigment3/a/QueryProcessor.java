@@ -31,6 +31,10 @@ public class QueryProcessor {
 		long corpus = index.getTotalTerms();
 		//draw information of word out of database
 		for (String w : ParseQuery()) {
+			//Stemmer stemmer = new Stemmer();
+			//stemmer.add(w.toCharArray(), w.length());
+			//stemmer.stem();
+			//TermInvertedIndex term = index.getTerm(stemmer.toString());
 			TermInvertedIndex term = index.getTerm(w);
 			long df = term.getTotalDocs();
 			//turn information of word into information of document
@@ -74,7 +78,7 @@ public class QueryProcessor {
 		//NOTE: now the rank is reversed with most relevant at end!
 		Collections.sort(ranking, new Comparator<Pair<Integer, Double>>(){
 			public int compare(Pair<Integer, Double> pair1, Pair<Integer, Double> pair2){
-				return pair1.second.compareTo(pair2.second);
+				return pair2.second.compareTo(pair1.second);
 			}
 		});
 		//print out the result

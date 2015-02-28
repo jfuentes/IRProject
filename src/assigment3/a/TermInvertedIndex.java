@@ -45,7 +45,12 @@ public class TermInvertedIndex {
 		return s;
 	}
 	
+	public long getTotalDocs() {
+		return list.size();
+	}
+
 	public ArrayList<DocInvertedIndex> getList() {
+		// TODO Auto-generated method stub
 		return list;
 	}
 
