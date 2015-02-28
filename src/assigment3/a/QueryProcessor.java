@@ -32,7 +32,7 @@ public class QueryProcessor {
 		//draw information of word out of database
 		for (String w : ParseQuery()) {
 			TermInvertedIndex term = index.getTerm(w);
-			long df = term.getList().size();
+			long df = term.getTotalDocs();
 			//turn information of word into information of document
 			for (DocInvertedIndex doc : term.getList()) {
 				String docName = doc.getDocument();
