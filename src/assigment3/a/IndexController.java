@@ -12,6 +12,7 @@ public class IndexController {
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		int option;
+		InvertedIndexDB.getInstance();
 		System.out.println("*** Welcome to IR Crawling Project - Milestone 1***");
 		do {
 
@@ -19,7 +20,7 @@ public class IndexController {
 			System.out.println("Menu:");
 			System.out.println("1.- Build Index for ics.uci.edu (It may take a long time)");
 			System.out.println("2.- Compute Deliverables");
-			System.out.println("3.- Execute query (beta)");
+			System.out.println("3.- Execute query ");
 			System.out.println("4.- Exit");
 			System.out.print("Option: ");
 			option = sc.nextInt();

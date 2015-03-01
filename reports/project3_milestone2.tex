@@ -1,0 +1,405 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+\addtolength{\oddsidemargin}{-.375in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.1in}
+
+	\addtolength{\topmargin}{-.475in}
+	\addtolength{\textheight}{1.15in}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{enumerate}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{graphicx}
+\usepackage{sectsty} % Allows customizing section commands
+
+\usepackage{algorithm2e}
+\usepackage{amsmath}
+
+
+\allsectionsfont{\textbf \normalfont} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+%\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conj}[theorem]{Conjecture}
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{CS221: Information Retrieval} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Report: Project 3 Milestone 2 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Joel Fuentes (95686428)  and Han Ke (62087924)} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle 
+
+\section*{Continuation of Inverted Index Implementation}
+As the last milestone reported, the implementation of the index module (inverted index) was built by using a B-Tree data structure stored on disk. The Key value used in this index were the unique \textit{terms} retrieve from the websites in the previous part of the project.
+
+It is important to remark that the B-Tree structure is not built in main memory due to the big amount of memory that the set of website implies. To solve this problem a set of files on disk was used to create a pre-processing with the information needed to build the B-Tree in a second step. These file store all the information needed to create the inverted index by terms and documents (URLs). 
+
+
+
+Different classes and methods were created for milestone 2. These are:
+\begin{itemize}
+\item \textit{QueryProcessor}: This class has important methods to compute a search based on the query and the indexes.
+\item \textit{IndexController}: This class has the main method and provides a menu with the following options:
+\begin{itemize}
+\item Build Index for ics.uci.edu (It may take a long time)
+\item Compute Deliverables
+\item Execute query
+\end{itemize}
+\end{itemize}
+
+
+\section*{Deliverables}
+The set of deliverables requested for this part of the project can be obtained by running the program. Results for queries (top 5):
+\begin{enumerate}
+\item mondego
+\begin{small}
+\begin{verbatim}
+mondego: 19 results
+1)  http://mondego.ics.uci.edu/ 
+         score: 105.94 
+         1 words matched 
+         tf-idf: 5.94
+
+2)  http://www.ics.uci.edu/community/news/notes/ 
+         score: 105.23 
+         1 words matched 
+         tf-idf: 5.23
+
+3)  http://www.ics.uci.edu/~lopes/ 
+         score: 105.23 
+         1 words matched 
+         tf-idf: 5.23
+
+4)  http://www.ics.uci.edu/~djp3/classes/2006_03_30_ICS105/Resources/AnteaterIdol.html 
+         score: 105.23 
+         1 words matched 
+         tf-idf: 5.23
+
+5)  http://www.ics.uci.edu/community/news/notes/index 
+         score: 105.23 
+         1 words matched 
+         tf-idf: 5.23
+\end{verbatim}
+\end{small}
+\item machine learning
+\begin{small}
+\begin{verbatim}
+machine learning: 2927 results
+1)  http://www.ics.uci.edu/~pazzani/Publications/OldPublications.html 
+         score: 211.48 
+         2 words matched 
+         tf-idf: 11.48
+
+2)  http://www.ics.uci.edu/~pazzani/Publications/APubs.html 
+         score: 211.46 
+         2 words matched 
+         tf-idf: 11.46
+
+3)  http://isg.ics.uci.edu/events.html 
+         score: 209.97 
+         2 words matched 
+         tf-idf: 9.97
+
+4)  http://www.ics.uci.edu/~qliu1/MLcrowd_ICML_workshop/ 
+         score: 209.58 
+         2 words matched 
+         tf-idf: 9.58
+
+5)  http://www.ics.uci.edu/~qliu1/MLcrowd_ICML_workshop/index.html 
+         score: 209.58 
+         2 words matched 
+         tf-idf: 9.58
+
+
+\end{verbatim}
+\end{small}
+
+\item software engineering
+\begin{small}
+\begin{verbatim}
+software engineering: 3241 results
+1)  http://www.ics.uci.edu/~wscacchi/Papers/Vintage/Software_Productivity.html 
+         score: 106.45 
+         1 words matched 
+         tf-idf: 6.45
+
+2)  http://www.ics.uci.edu/~wscacchi/publications.html 
+         score: 105.96 
+         1 words matched 
+         tf-idf: 5.96
+
+3)  http://www.ics.uci.edu/~taylor/Publications.htm 
+         score: 105.87 
+         1 words matched 
+         tf-idf: 5.87
+
+4)  http://www.ics.uci.edu/~wscacchi/ 
+         score: 105.79 
+         1 words matched 
+         tf-idf: 5.79
+
+5)  http://www.ics.uci.edu/~andre/publications.html 
+         score: 105.73 
+         1 words matched 
+         tf-idf: 5.73
+
+
+\end{verbatim}
+\end{small}
+
+\item security
+\begin{small}
+\begin{verbatim}
+security: 1005 results
+1)  http://drzaius.ics.uci.edu/~swirl/impromptu-0.30/apidocs/index-all.html 
+         score: 106.84 
+         1 words matched 
+         tf-idf: 6.84
+
+2)  http://www.ics.uci.edu/~gts/pubs.html 
+         score: 106.72 
+         1 words matched 
+         tf-idf: 6.72
+
+3)  http://drzaius.ics.uci.edu/~swirl/impromptu-0.20/apidocs/index-all.html 
+         score: 106.38 
+         1 words matched 
+         tf-idf: 6.38
+
+4)  http://drzaius.ics.uci.edu/~swirl/impromptu-0.30/xref/edu/uci/isr/impromptu/repository/ProxyFilter.html 
+         score: 105.62 
+         1 words matched 
+         tf-idf: 5.62
+
+5)  http://drzaius.ics.uci.edu/~swirl/impromptu-0.30/xref/edu/uci/isr/impromptu/security/LevelHandler.html 
+         score: 105.58 
+         1 words matched 
+         tf-idf: 5.58
+
+\end{verbatim}
+\end{small}
+
+\item student affairs
+\begin{small}
+\begin{verbatim}
+student affairs: 8849 results
+1)  http://www.ics.uci.edu/ugrad/qa/ 
+         score: 211.08 
+         2 words matched 
+         tf-idf: 11.08
+
+2)  http://www.ics.uci.edu/ugrad/qa/index.php 
+         score: 211.08 
+         2 words matched 
+         tf-idf: 11.08
+
+3)  http://www.ics.uci.edu/ugrad/ 
+         score: 208.99 
+         2 words matched 
+         tf-idf: 8.99
+
+4)  http://www.ics.uci.edu/ugrad/index.php 
+         score: 208.99 
+         2 words matched 
+         tf-idf: 8.99
+
+5)  http://www.ics.uci.edu/grad/index.php 
+         score: 208.81 
+         2 words matched 
+         tf-idf: 8.81
+
+\end{verbatim}
+\end{small}
+
+\item Crista Lopes
+\begin{small}
+\begin{verbatim}
+Crista Lopes: 161 results
+1)  http://www.ics.uci.edu/community/news/notes/notes_2007.php 
+         score: 213.58 
+         2 words matched 
+         tf-idf: 13.58
+
+2)  http://vcp.ics.uci.edu/content/dvas 
+         score: 212.46 
+         2 words matched 
+         tf-idf: 12.46
+
+3)  http://www.ics.uci.edu/community/news/notes/ 
+         score: 211.12 
+         2 words matched 
+         tf-idf: 11.12
+
+4)  http://www.ics.uci.edu/community/news/notes/index.php 
+         score: 211.12 
+         2 words matched 
+         tf-idf: 11.12
+
+5)  http://www.ics.uci.edu/community/news/notes/index 
+         score: 211.12 
+         2 words matched 
+         tf-idf: 11.12
+
+
+\end{verbatim}
+\end{small}
+
+\item REST
+\begin{small}
+\begin{verbatim}
+REST: 599 results
+1)  http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm 
+         score: 107.23 
+         1 words matched 
+         tf-idf: 7.23
+
+2)  http://www.ics.uci.edu/~fielding/pubs/dissertation/evaluation.htm 
+         score: 106.82 
+         1 words matched 
+         tf-idf: 6.82
+
+3)  http://www.ics.uci.edu/~kay/courses/i41/answers.html 
+         score: 106.59 
+         1 words matched 
+         tf-idf: 6.59
+
+4)  http://www.ics.uci.edu/~kay/courses/141/schemenotes.html 
+         score: 105.9 
+         1 words matched 
+         tf-idf: 5.9
+
+5)  http://archive.ics.uci.edu/ml/datasets/SPECTF+Heart 
+         score: 105.9 
+         1 words matched 
+         tf-idf: 5.9
+
+
+\end{verbatim}
+\end{small}
+
+\item computer games
+\begin{small}
+\begin{verbatim}
+computer games: 22743 results
+1)  http://www.ics.uci.edu/~magda/cs620/announceOG.html 
+         score: 208.72 
+         2 words matched 
+         tf-idf: 8.72
+
+2)  http://www.ics.uci.edu/~wscacchi/ 
+         score: 208.61 
+         2 words matched 
+         tf-idf: 8.61
+
+3)  http://sli.ics.uci.edu/Classes/2009W-Comments 
+         score: 208.13 
+         2 words matched 
+         tf-idf: 8.13
+
+4)  http://www.ics.uci.edu/~eppstein/cgt/bib.html 
+         score: 208.03 
+         2 words matched 
+         tf-idf: 8.03
+
+5)  http://www.ics.uci.edu/~eppstein/cgt/ 
+         score: 207.86 
+         2 words matched 
+         tf-idf: 7.86
+
+
+\end{verbatim}
+\end{small}
+
+\item information retrieval
+\begin{small}
+\begin{verbatim}
+information retrieval: 24018 results
+1)  http://www-db.ics.uci.edu/pages/research/mars.shtml 
+         score: 208.77 
+         2 words matched 
+         tf-idf: 8.77
+
+2)  http://www-db.ics.uci.edu/pages/research/mars/index.shtml 
+         score: 208.77 
+         2 words matched 
+         tf-idf: 8.77
+
+3)  http://www-db.ics.uci.edu/pages/research/mars/ 
+         score: 208.77 
+         2 words matched 
+         tf-idf: 8.77
+
+4)  http://www.ics.uci.edu/~gbowker/converge.html 
+         score: 208.32 
+         2 words matched 
+         tf-idf: 8.32
+
+5)  http://www.ics.uci.edu/~kobsa/privacy/German.htm 
+         score: 208.2 
+         2 words matched 
+         tf-idf: 8.2
+
+
+\end{verbatim}
+\end{small}
+\end{enumerate}
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

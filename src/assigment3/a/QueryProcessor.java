@@ -1,6 +1,13 @@
 package assigment3.a;
 
-import java.util.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Collections;
 
 import persistence.InvertedIndexDB;
 import assigment1.a.Pair;
@@ -12,30 +19,31 @@ public class QueryProcessor {
 	InvertedIndexDB index;
 	
 	//use List to store information about documents
-	List<String> documents = new ArrayList<String>();
-	//count how many words in query can be found in this document
-	List<Integer> word_exist = new ArrayList<Integer>();
-	//count the total of tf-idf of this document
-	List<Double> tf_idfs = new ArrayList<Double>();
+	HashMap<String, Pair<Integer, Double>> documents;
+	//Pair.Integer count how many words in query can be found in this document
+	//Pair.Double count the total of tf-idf of this document
+
 	
 	public QueryProcessor(String w, InvertedIndexDB index) {
 		this.word = w;
 		this.index = index;
+		documents = new HashMap<String, Pair<Integer, Double>>();
 	}
 	
-	public List<String> ParseQuery() {
+	public List<String> parseQuery() {
 		return Utilities.tokenizeString(word);
 	}
 	
 	public void DoSearch() {
 		long corpus = index.getTotalTerms();
 		//draw information of word out of database
-		for (String w : ParseQuery()) {
+		for (String w : parseQuery()) {
 			//Stemmer stemmer = new Stemmer();
 			//stemmer.add(w.toCharArray(), w.length());
 			//stemmer.stem();
 			//TermInvertedIndex term = index.getTerm(stemmer.toString());
 			TermInvertedIndex term = index.getTerm(w);
+			if(term!=null){
 			long df = term.getTotalDocs();
 			//turn information of word into information of document
 			for (DocInvertedIndex doc : term.getList()) {
@@ -43,55 +51,59 @@ public class QueryProcessor {
 				List<Integer> docLocations = doc.getLocations();
 				double tf_idf = (1+Math.log10(docLocations.size()))*(Math.log10(corpus/df));
 				//put information of document into List
-				putInfo(docName, tf_idf);
+				putInfoHashMap(docName, tf_idf);
+			}
 			}
 		}
 		
 		sortAndPrint();
 	}
 	
-	public void putInfo(String docName, double tf_idf) {
-		if(documents.indexOf(docName)==-1) {
-			documents.add(docName);
-			word_exist.add(1);
-			tf_idfs.add(tf_idf);
+	public void putInfoHashMap(String docName, double tf_idf) {
+		if(!documents.containsKey(docName)) {
+			Pair<Integer, Double> pair= Pair.createPair(new Integer(1), new Double(tf_idf));
+			documents.put(docName, pair);
+			
 		}
 		else {
-			int position = documents.indexOf(docName);
-			word_exist.set(position, word_exist.get(position) + 1);
-			tf_idfs.set(position, tf_idfs.get(position) + tf_idf);
+			documents.put(docName, Pair.createPair(documents.get(docName).first+1, documents.get(docName).second + tf_idf));
+			
 		}
 	}
 	
 	public void sortAndPrint() {
-		//calculate score based on information in List
-		Double[] scores = new Double[documents.size()];
-		for (int i=0;i<documents.size();i++) {
-			scores[i] = word_exist.get(i)*100 + tf_idfs.get(i);
+		//calculate score based on information in hashmap of documents
+		ArrayList<Pair<String, Double[]>> arrayList= new ArrayList<Pair<String, Double[]>>(documents.size());
+		Iterator<String> iterator= documents.keySet().iterator();
+		int i=0;
+		while(iterator.hasNext() && i<documents.size()){
+			String s = iterator.next();
+			Double[] statistics= new Double[3];
+			statistics[0]=new Double(documents.get(s).first); // total number of matches
+			statistics[1]=documents.get(s).second; //tf_idf
+			statistics[2]= statistics[0]*100 + statistics[1]; // determining score
+			Pair<String, Double[]> triple= Pair.createPair(s, statistics);
+			arrayList.add(triple);
+			i++;
 		}
-		//create a List containing id and score
-		List<Pair<Integer,Double>> ranking = new ArrayList<Pair<Integer,Double>>();
-		for (int i=0;i<documents.size();i++) {
-			ranking.add(Pair.createPair(i,scores[i]));
-		}
-		//rank the id by score
-		//NOTE: now the rank is reversed with most relevant at end!
-		Collections.sort(ranking, new Comparator<Pair<Integer, Double>>(){
-			public int compare(Pair<Integer, Double> pair1, Pair<Integer, Double> pair2){
-				return pair2.second.compareTo(pair1.second);
+	
+		Collections.sort(arrayList, new Comparator<Pair<String, Double[]>>(){
+			public int compare(Pair<String, Double[]> pair1, Pair<String, Double[]> pair2){
+				return pair2.second[2].compareTo(pair1.second[2]); //sort by score
 			}
 		});
-		//print out the result
 		
-		for (int i=0;i<documents.size();i++) {
-			int id = ranking.get(i).first;
-			System.out.print(" " + documents.get(id) + " ");
-			System.out.print("score: " + ranking.get(i).second + " ");
-			System.out.print(word_exist.get(id) + " of " + ParseQuery().size() + " words matched ");
-			System.out.print("total tf-idf: " + tf_idfs.get(id));
+		DecimalFormat df = new DecimalFormat("#.##");
+	    df.setRoundingMode(RoundingMode.FLOOR);
+	    System.out.println(word + ": " + documents.size() + " results   (Only Top 5 is shown");
+		for (i=0;i<arrayList.size() && i<5;i++) {
+			System.out.println((i+1)+")  " + arrayList.get(i).first + " ");
+			System.out.println("         score: " + df.format(arrayList.get(i).second[2]) + " ");
+			System.out.println("         " +(arrayList.get(i).second[0].intValue())+ " words matched ");
+			System.out.println("         tf-idf: " + df.format(arrayList.get(i).second[1]));
 			System.out.println("");
 		}
-		System.out.println(word + ": " + documents.size() + " results");
+		
 	}
 
 }
