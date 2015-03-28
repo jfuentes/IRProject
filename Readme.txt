@@ -7,4 +7,4 @@ The get the answers to the questions for Project 2 you need to run the program i
 - The longest page in terms of number of words is: http://archive.ics.uci.edu/ml/machine-learning-databases/movies-mld/data/actors.html whose number of words is 50705
 
 
-Authors: Joel Fuentes (95686428) and Han Ke (62087924)
+Authors: Joel Fuentes and Han Ke
